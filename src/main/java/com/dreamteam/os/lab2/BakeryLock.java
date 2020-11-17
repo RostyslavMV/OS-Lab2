@@ -12,9 +12,6 @@ public class BakeryLock extends AbstractFixnumLock {
     boolean[] entering;
     private int maxThreads = 20;
 
-    private int Counter = 0;
-    private boolean randomComponent = false;
-
 
     public BakeryLock(Integer numberOfThreads) {
         super(numberOfThreads);

@@ -13,6 +13,14 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println("Hello World!");
+        BakeryLock Lock=new BakeryLock( 20);
+        Thread thread1=new Thread(new BakeryLockRunnable( Lock ));
+        thread1.start();
+        Thread thread2=new Thread(new BakeryLockRunnable( Lock ));
+        thread2.start();
+        Thread thread3=new Thread(new BakeryLockRunnable( Lock ));
+        thread3.start();
+       Thread thread4=new Thread(new BakeryLockRunnable( Lock ));
+        thread4.start();
     }
 }
