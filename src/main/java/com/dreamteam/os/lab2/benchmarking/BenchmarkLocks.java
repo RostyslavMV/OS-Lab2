@@ -26,20 +26,24 @@ public class BenchmarkLocks {
       ExecutorService service = Executors.newFixedThreadPool( 1) ;
       service.submit(benchmarkRunnable);
       service.awaitTermination(time, timeUnit);
+
+      benchmarkRunnable.stopRunning();
+      service.shutdown();
+
       int operationsNumber = benchmarkRunnable.getOperationsCount();
       long currentStepAverage = operationsNumber / time;
 
       if (i >= warmup) {
         average += currentStepAverage;
       }
-//      else
-//      {
-//        System.out.println("Warmup: ");
-//      }
-//      System.out.println(
-//          "Average time for the operation on the current step: "
-//          + currentStepAverage
-//          + " ops/" + timeUnit);
+      else
+      {
+        System.out.println("Warmup: ");
+      }
+      System.out.println(
+          "Average time for the operation on the current step: "
+          + currentStepAverage
+          + " ops/" + timeUnit);
     }
 
     average = average / iterations;

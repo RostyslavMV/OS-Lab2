@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Lock;
 public class BenchmarkRunnable implements Runnable {
   private Lock lock;
   private int operationsCount = 0;
+  private volatile boolean isRunning = true;
 
   public BenchmarkRunnable(Lock lock) {
     this.lock = lock;
@@ -12,11 +13,16 @@ public class BenchmarkRunnable implements Runnable {
 
   @Override
   public void run() {
-    while (!Thread.currentThread().isInterrupted()) {
+    while (isRunning) {
       lock.lock();
       lock.unlock();
       operationsCount++;
     }
+  }
+
+  public void stopRunning()
+  {
+    isRunning = false;
   }
 
   public int getOperationsCount() {

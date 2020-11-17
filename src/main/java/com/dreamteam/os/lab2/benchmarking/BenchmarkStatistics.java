@@ -7,8 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class BenchmarkStatistics {
   public static void main(String[] args) throws InterruptedException {
-    DekkersLock lock = new DekkersLock();
-    BenchmarkLocks benchmarkLocks = new BenchmarkLocks(10, 15, 4000, TimeUnit.MILLISECONDS);
+    ReentrantLock lock = new ReentrantLock();
+    BenchmarkLocks benchmarkLocks = new BenchmarkLocks(10, 15, 1000, TimeUnit.MILLISECONDS);
     benchmarkLocks.measurePerformance(lock);
   }
 }
