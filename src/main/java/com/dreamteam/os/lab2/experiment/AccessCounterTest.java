@@ -18,7 +18,7 @@ public class AccessCounterTest {
   private static volatile boolean resultPrinted = false;
   private static ArrayList<RunnableWithCancellation> runnables;
 
-  public static void testCounter(CounterTypes counterType) {
+  public static void testCounter(CounterTypes counterType) throws InterruptedException {
     resultPrinted = false;
     runnables = new ArrayList<>();
     for (int i = 0; i < 10; i++) {
@@ -29,13 +29,14 @@ public class AccessCounterTest {
 
       for (int j = 0; j < threadNumber; j += 2) {
         RunnableWithCancellation consumer = new Consumer(counter);
-        RunnableWithCancellation producer = new Producer(counter, 100000000L);
+        RunnableWithCancellation producer = new Producer(counter, 1000000L);
         runnables.add(consumer);
         runnables.add(producer);
         service.submit((Runnable) consumer);
         service.submit((Runnable) producer);
       }
     }
+    service.awaitTermination(10, TimeUnit.MINUTES);
   }
 
   public static void printResult(long endTime) {

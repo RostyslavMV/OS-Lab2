@@ -24,8 +24,8 @@ public class BenchmarkStatistics {
     System.out.println("Performance of the Bakery Lock: "); // 23960 ops/MILLISECOND
     benchmarkPerformance.measurePerformance(bakeryLock);
 
-//    System.out.println("Performance of the Improved Bakery Lock"); // 11435 ops/MILLISECOND
-//    benchmarkPerformance.measurePerformance(improvedBakeryLock);
+    //    System.out.println("Performance of the Improved Bakery Lock"); // 11435 ops/MILLISECOND
+    //    benchmarkPerformance.measurePerformance(improvedBakeryLock);
 
     System.out.println("Performance of the Dekker's Lock: "); // 35375 ops/MILLISECOND
     benchmarkPerformance.measurePerformance(dekkersLock);
@@ -35,6 +35,5 @@ public class BenchmarkStatistics {
 
     System.out.println("Performance of the Reentrant Lock"); // 50690 ops/MILLISECOND
     benchmarkPerformance.measurePerformance(reentrantLock);
-
   }
 }

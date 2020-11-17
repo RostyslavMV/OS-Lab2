@@ -34,8 +34,7 @@ public class BenchmarkRunnable implements Runnable {
     if (lock instanceof AbstractFixnumLock) ((AbstractFixnumLock) lock).unregister();
   }
 
-  public void stopRunning()
-  {
+  public void stopRunning() {
     isRunning = false;
   }
 

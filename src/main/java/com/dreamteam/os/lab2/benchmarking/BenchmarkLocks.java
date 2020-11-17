@@ -27,12 +27,11 @@ public class BenchmarkLocks {
     for (int i = 0; i < totalIterations; i++) {
       BenchmarkRunnable benchmarkRunnable = new BenchmarkRunnable(lock);
 
-      ExecutorService service = Executors.newFixedThreadPool( 1) ;
+      ExecutorService service = Executors.newFixedThreadPool(1);
       service.submit(benchmarkRunnable);
       service.awaitTermination(time, timeUnit);
       benchmarkRunnable.stopRunning();
       service.shutdown();
-
 
       int operationsNumber = benchmarkRunnable.getOperationsCount();
       long currentStepAverage = operationsNumber / time;
@@ -47,7 +46,8 @@ public class BenchmarkLocks {
         System.out.println(
             "Average time for the operation on the current step: "
                 + currentStepAverage
-                + " ops/" + timeUnit);
+                + " ops/"
+                + timeUnit);
       }
     }
 

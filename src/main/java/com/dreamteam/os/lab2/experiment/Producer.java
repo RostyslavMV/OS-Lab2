@@ -5,8 +5,7 @@ public class Producer implements Runnable, RunnableWithCancellation {
   private long targetNumber;
   private volatile boolean isRunning = true;
 
-  public Producer(Counter counter, long targetNumber)
-  {
+  public Producer(Counter counter, long targetNumber) {
     this.counter = counter;
     this.targetNumber = targetNumber;
   }
@@ -22,8 +21,7 @@ public class Producer implements Runnable, RunnableWithCancellation {
     }
   }
 
-  public void stopRunning()
-  {
+  public void stopRunning() {
     isRunning = false;
   }
 }

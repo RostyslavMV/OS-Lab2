@@ -7,19 +7,15 @@ public class Synchronized implements Counter {
   private int counter;
 
   @Override
-  public long getCounter()
-  {
-    synchronized (lock)
-    {
+  public long getCounter() {
+    synchronized (lock) {
       return counter;
     }
   }
 
   @Override
-  public void increment()
-  {
-    synchronized (lock)
-    {
+  public void increment() {
+    synchronized (lock) {
       ++counter;
     }
   }

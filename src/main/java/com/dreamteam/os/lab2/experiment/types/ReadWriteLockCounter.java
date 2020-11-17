@@ -8,15 +8,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ReadWriteLockCounter implements Counter {
   private ReadWriteLock rwlock = new ReentrantReadWriteLock();
 
-  private Lock readLock = rwlock.readLock();
-  private Lock writeLock = rwlock.writeLock();
+  private final Lock readLock = rwlock.readLock();
+  private final Lock writeLock = rwlock.writeLock();
   private long counter;
 
   @Override
-  public long getCounter()
-  {
-    try
-    {
+  public long getCounter() {
+    try {
       readLock.lock();
       return counter;
     } finally {
@@ -25,10 +23,8 @@ public class ReadWriteLockCounter implements Counter {
   }
 
   @Override
-  public void increment()
-  {
-    try
-    {
+  public void increment() {
+    try {
       writeLock.lock();
       ++counter;
     } finally {

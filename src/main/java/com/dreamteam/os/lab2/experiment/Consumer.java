@@ -5,8 +5,7 @@ public class Consumer implements Runnable, RunnableWithCancellation {
   private final Counter counter;
   private volatile boolean isRunning = true;
 
-  public Consumer(Counter counter)
-  {
+  public Consumer(Counter counter) {
     this.counter = counter;
   }
 
@@ -17,8 +16,7 @@ public class Consumer implements Runnable, RunnableWithCancellation {
     }
   }
 
-  public void stopRunning()
-  {
+  public void stopRunning() {
     isRunning = false;
   }
 }

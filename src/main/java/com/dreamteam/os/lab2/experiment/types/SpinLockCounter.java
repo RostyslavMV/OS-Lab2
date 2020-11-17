@@ -8,23 +8,18 @@ public class SpinLockCounter implements Counter {
   private long counter;
 
   @Override
-  public long getCounter()
-  {
-    try
-    {
+  public long getCounter() {
+    try {
       lock.lock();
       return counter;
     } finally {
       lock.unlock();
     }
-
   }
 
   @Override
-  public void increment()
-  {
-    try
-    {
+  public void increment() {
+    try {
       lock.lock();
       ++counter;
     } finally {
