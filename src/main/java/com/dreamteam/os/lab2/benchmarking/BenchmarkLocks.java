@@ -4,12 +4,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class BenchmarkLocks {
   private int iterations;
   private TimeUnit timeUnit;
   private long time;
   private int warmup;
+  private boolean showIntermediateData = false;
 
   public BenchmarkLocks(int iterations, int warmup, long time, TimeUnit timeUnit) {
     this.iterations = iterations;
@@ -23,31 +26,37 @@ public class BenchmarkLocks {
     long average = 0;
     for (int i = 0; i < totalIterations; i++) {
       BenchmarkRunnable benchmarkRunnable = new BenchmarkRunnable(lock);
+
       ExecutorService service = Executors.newFixedThreadPool( 1) ;
       service.submit(benchmarkRunnable);
       service.awaitTermination(time, timeUnit);
-
       benchmarkRunnable.stopRunning();
       service.shutdown();
+
 
       int operationsNumber = benchmarkRunnable.getOperationsCount();
       long currentStepAverage = operationsNumber / time;
 
-      if (i >= warmup) {
+      boolean currentlyInWarmup = i >= warmup;
+      if (currentlyInWarmup) {
         average += currentStepAverage;
       }
-      else
-      {
-        System.out.println("Warmup: ");
+
+      if (showIntermediateData) {
+        if (currentlyInWarmup) System.out.println("Warmup: ");
+        System.out.println(
+            "Average time for the operation on the current step: "
+                + currentStepAverage
+                + " ops/" + timeUnit);
       }
-      System.out.println(
-          "Average time for the operation on the current step: "
-          + currentStepAverage
-          + " ops/" + timeUnit);
     }
 
     average = average / iterations;
     System.out.println("Average time = " + average + " ops/" + timeUnit);
+  }
+
+  public void showIntermediateData(boolean show) {
+    showIntermediateData = show;
   }
 
   public void setTimeUnit(TimeUnit timeUnit) {

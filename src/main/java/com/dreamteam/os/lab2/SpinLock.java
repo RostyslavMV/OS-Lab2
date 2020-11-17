@@ -4,7 +4,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SpinLock implements Lock {
   private AtomicReference<Thread> atomicReference = new AtomicReference<>();
 
