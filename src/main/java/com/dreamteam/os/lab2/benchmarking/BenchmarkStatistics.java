@@ -2,8 +2,8 @@ package com.dreamteam.os.lab2.benchmarking;
 
 import com.dreamteam.os.lab2.BakeryLock;
 import com.dreamteam.os.lab2.DekkersLock;
-import com.dreamteam.os.lab2.ImprovedBakeryLock;
 import com.dreamteam.os.lab2.SpinLock;
+import com.dreamteam.os.lab2.experiment.types.CounterTypes;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.LogManager;
@@ -19,13 +19,13 @@ public class BenchmarkStatistics {
     DekkersLock dekkersLock = new DekkersLock();
     SpinLock spinLock = new SpinLock();
     ReentrantLock reentrantLock = new ReentrantLock();
-    ImprovedBakeryLock improvedBakeryLock = new ImprovedBakeryLock(1);
+//    ImprovedBakeryLock improvedBakeryLock = new ImprovedBakeryLock(1);
 
     System.out.println("Performance of the Bakery Lock: "); // 23960 ops/MILLISECOND
     benchmarkPerformance.measurePerformance(bakeryLock);
 
-    //    System.out.println("Performance of the Improved Bakery Lock"); // 11435 ops/MILLISECOND
-    //    benchmarkPerformance.measurePerformance(improvedBakeryLock);
+//    System.out.println("Performance of the Improved Bakery Lock"); // 11435 ops/MILLISECOND
+//    benchmarkPerformance.measurePerformance(improvedBakeryLock);
 
     System.out.println("Performance of the Dekker's Lock: "); // 35375 ops/MILLISECOND
     benchmarkPerformance.measurePerformance(dekkersLock);
@@ -35,5 +35,14 @@ public class BenchmarkStatistics {
 
     System.out.println("Performance of the Reentrant Lock"); // 50690 ops/MILLISECOND
     benchmarkPerformance.measurePerformance(reentrantLock);
+
+    System.out.println("Performance of the Atomic Counter"); // 56690 ops/MILLISECOND
+    benchmarkPerformance.measurePerformance(CounterTypes.ATOMIC);
+
+    System.out.println("Performance of the Synchronized Counter"); // 130820 ops/MILLISECOND
+    benchmarkPerformance.measurePerformance(CounterTypes.SYNCHRONIZED);
+
+    System.out.println("Performance of the Read-Write lock Counter"); // 30820 ops/MILLISECOND
+    benchmarkPerformance.measurePerformance(CounterTypes.READ_WRITE_LOCK);
   }
 }
