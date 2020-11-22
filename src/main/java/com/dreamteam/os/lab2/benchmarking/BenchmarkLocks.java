@@ -1,5 +1,6 @@
 package com.dreamteam.os.lab2.benchmarking;
 
+import com.dreamteam.os.lab2.experiment.types.CounterTypes;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -8,11 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class BenchmarkLocks {
-  private int iterations;
+  private final int iterations;
   private TimeUnit timeUnit;
   private long time;
-  private int warmup;
+  private final int warmup;
   private boolean showIntermediateData = false;
+  private Lock lock;
 
   public BenchmarkLocks(int iterations, int warmup, long time, TimeUnit timeUnit) {
     this.iterations = iterations;
@@ -21,11 +23,14 @@ public class BenchmarkLocks {
     this.warmup = warmup;
   }
 
-  public void measurePerformance(Lock lock) throws InterruptedException {
+  public void measurePerformance(CounterTypes counterType) throws InterruptedException {
     int totalIterations = iterations + warmup;
     long average = 0;
     for (int i = 0; i < totalIterations; i++) {
-      BenchmarkRunnable benchmarkRunnable = new BenchmarkRunnable(lock);
+      BenchmarkRunnable benchmarkRunnable;
+
+      if (counterType == CounterTypes.LOCK) benchmarkRunnable = new BenchmarkRunnable(lock);
+      else benchmarkRunnable = new BenchmarkRunnable(counterType);
 
       ExecutorService service = Executors.newFixedThreadPool(1);
       service.submit(benchmarkRunnable);
@@ -33,7 +38,7 @@ public class BenchmarkLocks {
       benchmarkRunnable.stopRunning();
       service.shutdown();
 
-      int operationsNumber = benchmarkRunnable.getOperationsCount();
+      long operationsNumber = benchmarkRunnable.getOperationsCount();
       long currentStepAverage = operationsNumber / time;
 
       boolean currentlyInWarmup = i >= warmup;
@@ -53,6 +58,11 @@ public class BenchmarkLocks {
 
     average = average / iterations;
     System.out.println("Average time = " + average + " ops/" + timeUnit);
+  }
+
+  public void measurePerformance(Lock lock) throws InterruptedException {
+    this.lock = lock;
+    measurePerformance(CounterTypes.LOCK);
   }
 
   public void showIntermediateData(boolean show) {

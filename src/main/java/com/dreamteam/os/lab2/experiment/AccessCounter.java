@@ -11,9 +11,6 @@ public class AccessCounter {
     System.out.println("Read-write lock counter: ");
     AccessCounterTest.testCounter(CounterTypes.READ_WRITE_LOCK);
 
-    System.out.println("Spin lock counter: ");
-    AccessCounterTest.testCounter(CounterTypes.SPIN_LOCK);
-
     System.out.println("Synchronized counter: ");
     AccessCounterTest.testCounter(CounterTypes.SYNCHRONIZED);
   }

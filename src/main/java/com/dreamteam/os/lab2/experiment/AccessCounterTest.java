@@ -2,14 +2,14 @@ package com.dreamteam.os.lab2.experiment;
 
 import com.dreamteam.os.lab2.experiment.types.Atomic;
 import com.dreamteam.os.lab2.experiment.types.CounterTypes;
+import com.dreamteam.os.lab2.experiment.types.LockCounter;
 import com.dreamteam.os.lab2.experiment.types.ReadWriteLockCounter;
-import com.dreamteam.os.lab2.experiment.types.SpinLockCounter;
 import com.dreamteam.os.lab2.experiment.types.Synchronized;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 public class AccessCounterTest {
   public static int threadNumber = 10;
@@ -48,17 +48,19 @@ public class AccessCounterTest {
     service.shutdownNow();
   }
 
-  private static Counter getCounter(CounterTypes counterType) {
+  public static Counter getCounter(CounterTypes counterType) {
     switch (counterType) {
       case ATOMIC:
         return new Atomic();
       case READ_WRITE_LOCK:
         return new ReadWriteLockCounter();
-      case SPIN_LOCK:
-        return new SpinLockCounter();
       case SYNCHRONIZED:
         return new Synchronized();
     }
     return null;
+  }
+
+  public static Counter getLockCounter(Lock lock) {
+    return new LockCounter(lock);
   }
 }
